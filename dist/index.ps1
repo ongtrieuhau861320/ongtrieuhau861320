@@ -92,5 +92,5 @@ function GetLibraryFile ([string] $pathLibrary) {
     return $o
 }
 $secrets = InitializeSecrets
-$lib = GetLibraryFile -pathLibrary ($PSScriptRoot + '\OTH.PAY.ViettinBank.Crypto.dll')
+$lib = GetLibraryFile -pathLibrary (Join-Path -Path $PSScriptRoot -ChildPath "OTH.PAY.ViettinBank.Crypto.dll")
 Write-Host ($lib | ConvertTo-Json)
