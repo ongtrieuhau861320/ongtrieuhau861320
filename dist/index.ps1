@@ -34,7 +34,7 @@ function GetLibraryFile ([string] $pathLibrary) {
     
     [System.IO.FileInfo]$infoFile = New-Object System.IO.FileInfo($pathLibrary);
     $o = [pscustomobject]@{}
-    $o | Add-Member -NotePropertyName OriginalFilename -NotePropertyValue $infoFile.VersionInfo.Name
+    $o | Add-Member -NotePropertyName OriginalFilename -NotePropertyValue $infoFile.Name
     $o | Add-Member -NotePropertyName FileVersion -NotePropertyValue $infoFile.VersionInfo.FileVersion
     $o | Add-Member -NotePropertyName FileDescription -NotePropertyValue $infoFile.VersionInfo.FileDescription
     $o | Add-Member -NotePropertyName FileLength -NotePropertyValue $infoFile.Length
