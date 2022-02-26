@@ -1,15 +1,16 @@
 {
-  "name": "ongtrieuhau861320",
-  "version": "1.0.0",
-  "description": "- 👋 Hi, I’m @ongtrieuhau861320\r - 👀 I’m interested in ...\r - 🌱 I’m currently learning ...\r - 💞️ I’m looking to collaborate on ...\r - 📫 How to reach me ...",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com-id_ongtrieuhau861320gmailcom:ongtrieuhau861320/ongtrieuhau861320.git"
-  },
-  "author": "",
-  "license": "ISC"
+   "name": "ongtrieuhau861320",
+   "version": "1.0.0",
+   "description": "- 👋 Hi, I’m @ongtrieuhau861320\r - 👀 I’m interested in ...\r - 🌱 I’m currently learning ...\r - 💞️ I’m looking to collaborate on ...\r - 📫 How to reach me ...",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "ncc build source\\index.js -o dist"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git@github.com-id_ongtrieuhau861320gmailcom:ongtrieuhau861320/ongtrieuhau861320.git"
+   },
+   "author": "",
+   "license": "ISC"
 }
