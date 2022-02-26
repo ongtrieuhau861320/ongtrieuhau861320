@@ -34,11 +34,12 @@ function GetLibraryFile ([string] $pathLibrary) {
     
     [System.IO.FileInfo]$infoFile = New-Object System.IO.FileInfo($pathLibrary);
     $o = [pscustomobject]@{}
-    $o | Add-Member -NotePropertyName OriginalFilename -NotePropertyValue $infoFile.Name
-    $o | Add-Member -NotePropertyName FileVersion -NotePropertyValue $infoFile.FileVersion
-    $o | Add-Member -NotePropertyName FileDescription -NotePropertyValue $infoFile.FileDescription
-    $o | Add-Member -NotePropertyName FileLength -NotePropertyValue $infoFile.FileLength
+    $o | Add-Member -NotePropertyName OriginalFilename -NotePropertyValue $infoFile.VersionInfo.Name
+    $o | Add-Member -NotePropertyName FileVersion -NotePropertyValue $infoFile.VersionInfo.FileVersion
+    $o | Add-Member -NotePropertyName FileDescription -NotePropertyValue $infoFile.VersionInfo.FileDescription
+    $o | Add-Member -NotePropertyName FileLength -NotePropertyValue $infoFile.Length
     $o | Add-Member -NotePropertyName IsExe -NotePropertyValue ($infoFile.Name -match '.exe$')
+
     $o | Add-Member -NotePropertyName FileTime -NotePropertyValue ([pscustomobject]@{})
     $o.FileTime | Add-Member -NotePropertyName CreationTime `
         -NotePropertyValue ($infoFile.CreationTime.ToString("yyyyMMdd HH:mm:ss"))
