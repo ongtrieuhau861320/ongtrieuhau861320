@@ -4,10 +4,12 @@ Function InitializeSecrets {
     try {
         $GITHUB_secrets = $env:GITHUB_secrets | ConvertFrom-Json
         $GITHUB_secrets.PSObject.Properties | ForEach-Object {
-            $converFromBase64 = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_.Value))
-            $secrets | Add-Member `
-                -NotePropertyName $_.Name `
-                -NotePropertyValue ($converFromBase64 | ConvertFrom-Json)     
+            if ($_.Name -ne "github_token") {
+                $converFromBase64 = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_.Value))
+                $secrets | Add-Member `
+                    -NotePropertyName $_.Name `
+                    -NotePropertyValue ($converFromBase64 | ConvertFrom-Json)   
+            }  
         }
     }
     catch {
