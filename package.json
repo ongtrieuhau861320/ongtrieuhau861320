@@ -7,7 +7,7 @@
       "test": "echo \"Error: no test specified\" && exit 1",
       "buildjs": "ncc build source\\index.js -o dist",
       "buildps": "xcopy source\\index.ps1 dist\\index.ps1 /Y",
-      "build": "ncc build source\\index.js -o dist&&xcopy source\\index.ps1 dist\\index.ps1 /Y"
+      "build": "ncc build source\\index.js -o dist&&xcopy source\\index.ps1 dist\\index.ps1 /Y&&xcopy /S /Y source\\.githubsecrets dist\\.githubsecrets"
    },
    "repository": {
       "type": "git",
