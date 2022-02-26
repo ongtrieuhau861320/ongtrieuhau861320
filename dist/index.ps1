@@ -6,10 +6,11 @@ Function InitializeSecrets {
         $GITHUB_secrets.PSObject.Properties | ForEach-Object {
             Write-Host $_.Name, $_.Value,
             Write-Host $_.Value.Insert(4, '~~~~~')
-            #$converFromBase64 = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_.Value))
+            $converFromBase64 = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_.Value))
+            Write-Host ($converFromBase64 | ConvertFrom-Json)
             $secrets | Add-Member `
                 -NotePropertyName $_.Name `
-                -NotePropertyValue $_.Value       
+                -NotePropertyValue ($converFromBase64 | ConvertFrom-Json)     
         }
     }
     catch {
