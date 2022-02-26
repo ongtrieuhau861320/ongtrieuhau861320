@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
 Function InitializeSecrets {
+    Write-Host '=====InitializeSecrets====='
     $secrets = [pscustomobject]@{}
     try {
         $GITHUB_secrets = $env:GITHUB_secrets | ConvertFrom-Json
@@ -24,9 +25,8 @@ Function InitializeSecrets {
             }
         }
     }
+    Write-Host ($secrets | ConvertTo-Json)
+    Write-Host '=====END:InitializeSecrets='
     $secrets
 }
 $secrets = InitializeSecrets
-Write-Host '=====InitializeSecrets====='
-Write-Host ($secrets | ConvertTo-Json)
-Write-Host '=====END:InitializeSecrets='
