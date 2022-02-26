@@ -26,7 +26,7 @@ Function InitializeSecrets {
     }
     $secrets
 }
-$config = InitializeSecrets
+$secrets = InitializeSecrets
 Write-Host '=====InitializeSecrets====='
-Write-Host ($config | ConvertTo-Json)
+Write-Host ($secrets | ConvertTo-Json)
 Write-Host '=====END:InitializeSecrets='
