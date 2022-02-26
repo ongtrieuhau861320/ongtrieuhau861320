@@ -4,9 +4,10 @@ Function InitializeSecrets {
     try {
         $GITHUB_secrets = $env:GITHUB_secrets | ConvertFrom-Json
         $GITHUB_secrets.PSObject.Properties | ForEach-Object {
+            $converFromBase64 = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_.Value )) | ConvertFrom-Json
             $secrets | Add-Member `
                 -NotePropertyName $_.Name `
-                -NotePropertyValue $_.Value        
+                -NotePropertyValue $converFromBase64       
         }
     }
     catch {
@@ -24,5 +25,6 @@ Function InitializeSecrets {
     $secrets
 }
 $config = InitializeSecrets
-Write-Host '====='
+Write-Host '=====InitializeSecrets====='
 Write-Host ($config | ConvertTo-Json)
+Write-Host '==========================='
