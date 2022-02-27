@@ -5,7 +5,7 @@
       "SourceDirectoryName": "Deploy_Libraries",
       "SourceExtentsionFile": ["*.dll", "*.exe"],
       "IsFileNames": true,
-      "FileNames": ["HospitalPrinter.exe"],
+      "FileNames": ["OTH.PAY.ViettinBank.Crypto.dll"],
       "OutputExtentsionFile": ".libraryfile.json"
    }
 }
