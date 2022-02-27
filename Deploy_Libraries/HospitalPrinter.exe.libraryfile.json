@@ -1,0 +1,24 @@
+{
+  "OriginalFilename": "HospitalPrinter.exe",
+  "FileVersion": "3.22.0223.1",
+  "FileDescription": "Coding by ongtrieuhau © DH Solutions",
+  "FileLength": 2397184,
+  "IsExe": true,
+  "FileTime": {
+    "CreationTime": "20220227 08:26:57",
+    "LastWriteTime": "20220223 14:52:09",
+    "LastAccessTime": "20220227 09:03:52"
+  },
+  "FileHashMD5": "D3BE380A3CCE4DC5FB34D367313F31D2",
+  "FileHashSHA1": "FD92A1585A44624B11AAE94DFA212504A663A32B",
+  "AssemblyFullName": "HospitalPrinter, Version=3.22.223.1, Culture=neutral, PublicKeyToken=null",
+  "AssemblyFullNameMD5": "825F97722B47FB1EA6B9ACAA3F567D73",
+  "AssemblyFullNameSHA1": "786C82C651FA80858316F0DB916682177E5BF14D",
+  "AssemblyName": "HospitalPrinter",
+  "AssemblyVersion": "3.22.223.1",
+  "AssemblyProcessorArchitecture": "MSIL",
+  "AssemblyImageRuntimeVersion": "v4.0.30319",
+  "ReferencedAssemblies": [
+    "Roo.Exe, Version=1.20.1125.0, Culture=neutral, PublicKeyToken=null"
+  ]
+}

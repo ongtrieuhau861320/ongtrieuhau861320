@@ -60,8 +60,19 @@ var __webpack_exports__ = {};
 (() => {
 const fs = __nccwpck_require__(147);
 const path = __nccwpck_require__(17);
-const InitializeSecrets = () => {
-   console.log("=====InitializeSecrets=====");
+const InitializeExecuter = () => {
+   let options = {};
+   let optionsPath = __nccwpck_require__.ab + "option.executer.json";
+   if (fs.existsSync(__nccwpck_require__.ab + "option.executer.json")) {
+      options = JSON.parse(fs.readFileSync(optionsPath, { encoding: "utf-8" }));
+   }
+   return options;
+};
+const InitializeSecrets = (options) => {
+   const isShowLog = options?.IsShowLogInitializeSecrets || false;
+   if (isShowLog) {
+      console.log("=====InitializeSecrets=====");
+   }
    let secrets = {};
    if ("GITHUB_secrets" in process.env) {
       const GITHUB_secrets = JSON.parse(process.env.GITHUB_secrets);
@@ -82,11 +93,14 @@ const InitializeSecrets = () => {
          }
       }
    }
-   console.log(JSON.stringify(secrets, null, "\t"));
-   console.log("=====END:InitializeSecrets=");
+   if (isShowLog) {
+      console.log(JSON.stringify(secrets, null, "\t"));
+      console.log("=====END:InitializeSecrets=");
+   }
    return secrets;
 };
-const secrets = InitializeSecrets();
+const options = InitializeExecuter();
+const secrets = InitializeSecrets(options);
 
 })();
 

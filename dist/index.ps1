@@ -1,6 +1,19 @@
 $ErrorActionPreference = 'Stop'
-Function InitializeSecrets {
-    Write-Host '=====InitializeSecrets====='
+[Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+Function InitializeExecuter {
+    $options = [pscustomobject]@{}
+    $optionsPath = Join-Path -Path $PSScriptRoot -ChildPath '\option.executer.json'
+    if ([System.IO.File]::Exists($optionsPath )) {  
+        $options = (Get-Content $optionsPath | ConvertFrom-Json)
+    }
+    $options
+}
+Function InitializeSecrets([pscustomobject] $optionsExecuter) {
+    if ($options.IsShowLogInitializeSecrets -eq $True) {
+        Write-Host '=====InitializeSecrets====='
+    }
     $secrets = [pscustomobject]@{}
     try {
         $GITHUB_secrets = $env:GITHUB_secrets | ConvertFrom-Json
@@ -14,10 +27,11 @@ Function InitializeSecrets {
         }
     }
     catch {
-        $secretsPath = $PSScriptRoot + '\.githubsecrets'
+        $secretsPath = Join-Path -Path $PSScriptRoot -ChildPath '.githubsecrets'
         if ([System.IO.Directory]::Exists($secretsPath )) {            
+            $secretsPath = Join-Path -Path $secretsPath -ChildPath '*'
             $extension = ".githubsecrets.json"
-            $table = get-childitem -Path ($secretsPath + '\*') -Include @('*' + $extension)
+            $table = get-childitem -Path ($secretsPath) -Include @('*' + $extension)
             foreach ($file in $table) {
                 $secrets | Add-Member `
                     -NotePropertyName ($file.Name.Replace($extension, '')) `
@@ -25,11 +39,14 @@ Function InitializeSecrets {
             }
         }
     }
-    Write-Host ($secrets | ConvertTo-Json)
-    Write-Host '=====END:InitializeSecrets='
+    if ($options.IsShowLogInitializeSecrets -eq $True) {
+        Write-Host ($secrets | ConvertTo-Json)
+        Write-Host '=====END:InitializeSecrets='
+    }
     $secrets
 }
-
+$options = InitializeExecuter
+$secrets = InitializeSecrets -optionsExecuter $options
 function GetLibraryFile ([string] $pathLibrary) {
     
     [System.IO.FileInfo]$infoFile = New-Object System.IO.FileInfo($pathLibrary);
@@ -92,8 +109,37 @@ function GetLibraryFile ([string] $pathLibrary) {
     }
     return $o
 }
-$secrets = InitializeSecrets
-$deploy_libraries = [System.IO.Path]::GetDirectoryName($PSScriptRoot)
-$deploy_libraries = (Join-Path -Path $deploy_libraries -ChildPath "Deploy_Libraries")
-$lib = GetLibraryFile -pathLibrary (Join-Path -Path $deploy_libraries -ChildPath "OTH.PAY.ViettinBank.Crypto.dll")
-Write-Host ($lib | ConvertTo-Json)
+function Format-Json([Parameter(Mandatory, ValueFromPipeline)][String]$json) {
+    #https://github.com/PowerShell/PowerShell/issues/2736
+    $indent = 0;
+	($json -Split '\n' |
+    % {
+        if ($_ -match '[\}\]]') {
+            # This line contains  ] or }, decrement the indentation level
+            $indent--
+        }
+        $line = (' ' * $indent * 2) + $_.TrimStart().Replace(':  ', ': ')
+        if ($_ -match '[\{\[]') {
+            # This line contains [ or {, increment the indentation level
+            $indent++
+        }
+        $line
+    }) -Join "`n"
+}
+if ($options.IsLibrary -eq $True) {
+    $deploy_libraries = (Join-Path -Path ([System.IO.Path]::GetDirectoryName($PSScriptRoot)) -ChildPath $options.Library.SourceDirectoryName)
+    if ([System.IO.Directory]::Exists($deploy_libraries )) {
+        $deploy_libraries = Join-Path -Path $deploy_libraries -ChildPath "*"
+        $files = get-childitem -Path ($deploy_libraries) -Include $options.Library.SourceExtentsionFile
+        foreach ($file in $files) {
+            $checkFilename = ($options.Library.IsFileNames -eq $false) -or `
+            (($options.Library.IsFileNames -eq $True) -and $options.Library.FileNames.Contains($file.Name))
+            if ($checkFilename -eq $true) {
+                $lib = GetLibraryFile -pathLibrary $file.FullName
+                [System.IO.File]::WriteAllText($file.FullName + $options.Library.OutputExtentsionFile, `
+                    ($lib | ConvertTo-Json | Format-Json), (New-Object System.Text.UTF8Encoding $false))
+                Write-Host ($lib.OriginalFilename + $options.Library.OutputExtentsionFile, ";", $lib.AssemblyFullName)
+            }
+        }
+    }
+}

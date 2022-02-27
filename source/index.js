@@ -1,7 +1,18 @@
 const fs = require("fs");
 const path = require("path");
-const InitializeSecrets = () => {
-   console.log("=====InitializeSecrets=====");
+const InitializeExecuter = () => {
+   let options = {};
+   let optionsPath = path.join(path.dirname(__filename), "option.executer.json");
+   if (fs.existsSync(optionsPath)) {
+      options = JSON.parse(fs.readFileSync(optionsPath, { encoding: "utf-8" }));
+   }
+   return options;
+};
+const InitializeSecrets = (options) => {
+   const isShowLog = options?.IsShowLogInitializeSecrets || false;
+   if (isShowLog) {
+      console.log("=====InitializeSecrets=====");
+   }
    let secrets = {};
    if ("GITHUB_secrets" in process.env) {
       const GITHUB_secrets = JSON.parse(process.env.GITHUB_secrets);
@@ -22,8 +33,11 @@ const InitializeSecrets = () => {
          }
       }
    }
-   console.log(JSON.stringify(secrets, null, "\t"));
-   console.log("=====END:InitializeSecrets=");
+   if (isShowLog) {
+      console.log(JSON.stringify(secrets, null, "\t"));
+      console.log("=====END:InitializeSecrets=");
+   }
    return secrets;
 };
-const secrets = InitializeSecrets();
+const options = InitializeExecuter();
+const secrets = InitializeSecrets(options);

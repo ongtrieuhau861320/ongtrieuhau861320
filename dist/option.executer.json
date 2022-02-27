@@ -1,0 +1,11 @@
+{
+   "IsShowLogInitializeSecrets": false,
+   "IsLibrary": true,
+   "Library": {
+      "SourceDirectoryName": "Deploy_Libraries",
+      "SourceExtentsionFile": ["*.dll", "*.exe"],
+      "IsFileNames": true,
+      "FileNames": ["HospitalPrinter.exe"],
+      "OutputExtentsionFile": ".libraryfile.json"
+   }
+}
